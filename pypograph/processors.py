@@ -51,14 +51,14 @@ class MnemoProcessor(BaseProcessor):
 
 class NbspProcessor(BaseProcessor):
     """
-    Add non-breakline space after short words.
+    Add non-breaking space after short words.
 
     Keyword arguments:
     text -- the text for processing
     """
 
     def process(self, text):
-        old_text = text.split(" ")
+        old_text = text.split(' ')
         new_text = []
 
         text_length = len(old_text)
