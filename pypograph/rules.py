@@ -72,4 +72,23 @@ class NbspRule(BaseRule):
                     space = ' '
 
             new_text.append(word + space)
-        return "".join(new_text)
+        return ''.join(new_text)
+
+
+class QuoteRule(BaseRule):
+    config = {
+        'quote_quotes': '«»',
+    }
+
+
+    def process(self, text):
+        new_text = list(text)
+        match = 0
+
+        for i, char in enumerate(new_text):
+            if char == '"':
+                match += 1
+                q_index = 0 if (match % 2 == 1) else 1
+                new_text[i] = self.config['quote_quotes'][q_index]
+
+        return ''.join(new_text)
