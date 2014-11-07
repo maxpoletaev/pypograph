@@ -1,42 +1,42 @@
-from pypograph import processors
+from pypograph import rules
 import unittest
 
 
-class NbspProcessorTest(unittest.TestCase):
+class NbspRuleTest(unittest.TestCase):
 
     def setUp(self):
-        self.processor = processors.NbspProcessor()
+        self.rule = rules.NbspRule()
 
     def test_process(self):
         text = 'ab abcd abcde a abcd'
         expect = 'ab&nbsp;abcd abcde a&nbsp;abcd'
-        result = self.processor.process(text)
+        result = self.rule.process(text)
 
         self.assertEqual(result, expect)
 
 
-class MnemoProcessorTest(unittest.TestCase):
+class MnemoRuleTest(unittest.TestCase):
 
     def test_process_mtu(self):
-        processor = processors.MnemoProcessor({
+        rule = rules.MnemoRule({
             'mnemo_mode': 'html_to_utf8'
         })
 
         text = 'ab &mdash; cde &copy;'
         expect = 'ab — cde ©'
 
-        result = processor.process(text)
+        result = rule.process(text)
         self.assertEqual(result, expect)
 
     def test_process_utm(self):
-        processor = processors.MnemoProcessor({
+        rule = rules.MnemoRule({
             'mnemo_mode': 'utf8_to_html'
         })
 
         text = 'ab — cde ©'
         expect = 'ab &mdash; cde &copy;'
 
-        result = processor.process(text)
+        result = rule.process(text)
         self.assertEqual(result, expect)
 
 

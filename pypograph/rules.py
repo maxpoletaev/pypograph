@@ -1,4 +1,4 @@
-class BaseProcessor(object):
+class BaseRule(object):
     """
     Basic processor object.
     """
@@ -19,7 +19,7 @@ class BaseProcessor(object):
         return text
 
 
-class MnemoProcessor(BaseProcessor):
+class MnemoRule(BaseRule):
     mnemonics_table = {
         'mdash': {'html': '&mdash;', 'utf8': '—'},
         'copy': {'html': '&copy;', 'utf8': '©', 'alias': '(c) (C)'},
@@ -49,7 +49,7 @@ class MnemoProcessor(BaseProcessor):
         return table
 
 
-class NbspProcessor(BaseProcessor):
+class NbspRule(BaseRule):
     """
     Add non-breaking space after short words.
 

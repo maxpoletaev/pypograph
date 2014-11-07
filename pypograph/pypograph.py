@@ -1,22 +1,22 @@
-from pypograph import processors as proc
+from pypograph import rules
 import re
 
 
 class Pypograph(object):
-    processors = []
-
-    processor_classes = [
-        proc.NbspProcessor,
-        proc.MnemoProcessor,
+    rules = [
+        rules.NbspRule,
+        rules.MnemoRule,
     ]
 
+    _rules_instances = []
+
     def __init__(self, config={}):
-        for Proc in self.processor_classes:
-            processors.append(Proc(config))
+        for Rule in self.rules:
+            self._rules_instances.append(Rule(config))
 
     def typo(self, text):
-        for processor in self.processors:
-            text = processor.process(text)
+        for rule in self._rules_instances:
+            text = rule.process(text)
         return text
 
 
