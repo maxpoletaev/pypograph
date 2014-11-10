@@ -1,3 +1,5 @@
+import re
+
 class BaseRule(object):
     """
     Basic processor object.
@@ -95,9 +97,6 @@ class QuoteRule(BaseRule):
 
 
 class TabRule(BaseRule):
-    config = {
-        'tab': '\t',
-    }
 
     def process(self, text):
-        return text.replace(self.config['tab'], '')
+        return re.sub('\t+', ' ', re.sub('\t+$', '', re.sub('^\t+', '', text)))

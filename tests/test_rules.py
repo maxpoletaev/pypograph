@@ -58,7 +58,7 @@ class TabRuleTest(unittest.TestCase):
         self.rule = rules.TabRule()
 
     def test_process(self):
-        text = "\t\tLorem ipsum dolor sit amet, \t\t\t\tconsectetur adipiscing elit."
+        text = "\t\tLorem ipsum dolor sit amet, consectetur adipiscing elit.\t\t\t\t"
         expect = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 
         result = self.rule.process(text)
