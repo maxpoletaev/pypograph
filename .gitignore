@@ -1,3 +1,4 @@
 *.pyc
 .idea
+pypograph.egg-info
 __pycache__

@@ -52,5 +52,17 @@ class QuoteRuleTest(unittest.TestCase):
         result = self.rule.process(text)
         self.assertEqual(result, expect)
 
+class TabRuleTest(unittest.TestCase):
+
+    def setUp(self):
+        self.rule = rules.TabRule()
+
+    def test_process(self):
+        text = "\t\tLorem ipsum dolor sit amet, \t\t\t\tconsectetur adipiscing elit."
+        expect = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+
+        result = self.rule.process(text)
+        self.assertEqual(result, expect)
+
 if __name__ == '__main__':
     unittest.main()
