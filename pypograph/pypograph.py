@@ -4,6 +4,7 @@ import re
 
 class Pypograph(object):
     rules = [
+        rules.TabRule,
         rules.NbspRule,
         rules.MnemoRule,
     ]
