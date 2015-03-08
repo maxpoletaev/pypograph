@@ -2,6 +2,10 @@ from pypograph import rules
 import re
 
 
+class Text(str):
+    chain = []
+
+
 class Pypograph(object):
     rules = [
         rules.NbspRule,
@@ -16,7 +20,7 @@ class Pypograph(object):
 
     def typo(self, text):
         for rule in self._rules_instances:
-            text = rule.process(text)
+            text = rule.process_wrapper(text)
         return text
 
 

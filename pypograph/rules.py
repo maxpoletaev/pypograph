@@ -4,9 +4,23 @@ class BaseRule(object):
     """
 
     config = {}
+    deps = []
 
     def __init__(self, config={}):
         self.config.update(config)
+
+    @property
+    def name(self):
+        return self.__class__.__name__.replace('Rule', '').lower()
+
+    def process_wrapper(self, text):
+        for dep in self.deps:
+            if dep not in text.chain:
+                raise RuleDependencyException(
+                    "The %s rule required %s before"% (self.name, dep))
+
+        text.chain.append(dep)
+        return self.process(text)
 
     def process(self, text):
         """
@@ -80,7 +94,6 @@ class QuoteRule(BaseRule):
         'quote_quotes': '«»',
     }
 
-
     def process(self, text):
         new_text = list(text)
         match = 0
@@ -92,3 +105,7 @@ class QuoteRule(BaseRule):
                 new_text[i] = self.config['quote_quotes'][q_index]
 
         return ''.join(new_text)
+
+
+class RuleDependencyException(Exception):
+    pass
