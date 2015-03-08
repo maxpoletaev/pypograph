@@ -1,3 +1,5 @@
+import re
+
 class BaseRule(object):
     """
     Basic processor object.
@@ -35,8 +37,8 @@ class BaseRule(object):
 
 class MnemoRule(BaseRule):
     mnemonics_table = {
-        'mdash': {'html': '&mdash;', 'utf8': '—'},
-        'copy': {'html': '&copy;', 'utf8': '©', 'alias': '(c) (C)'},
+        'mdash': {'html': '&mdash;', 'html_code': '&#8212;', 'utf8': '—'},
+        'copy': {'html': '&copy;', 'html_code': '&#169;', 'utf8': '©', 'alias': '(c) (C)'},
     }
 
     config = {
@@ -105,6 +107,11 @@ class QuoteRule(BaseRule):
                 new_text[i] = self.config['quote_quotes'][q_index]
 
         return ''.join(new_text)
+
+
+class TabRule(BaseRule):
+    def process(self, text):
+        return re.sub('\t+', ' ', re.sub('\t+$', '', re.sub('^\t+', '', text)))
 
 
 class RuleDependencyException(Exception):

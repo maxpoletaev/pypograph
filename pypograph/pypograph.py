@@ -8,6 +8,7 @@ class Text(str):
 
 class Pypograph(object):
     rules = [
+        rules.TabRule,
         rules.NbspRule,
         rules.MnemoRule,
     ]
