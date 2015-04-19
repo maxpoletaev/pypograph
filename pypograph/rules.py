@@ -111,3 +111,10 @@ class TabRule(BaseRule):
 class OneSpaceRule(BaseRule):
     def process(self, text):
         return re.sub('\s+', ' ', text).strip()
+
+
+class MdashRule(BaseRule):
+    def process(self, text):
+        text = re.sub(r'^(?:\-\s)(.*)', r'— \1' , text, re.MULTILINE)
+        text = text.replace(' - ', ' — ')
+        return text

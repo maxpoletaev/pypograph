@@ -73,5 +73,17 @@ class OneSpaceRuleTets(unittest.TestCase):
         self.assertEqual(result, expect)
 
 
+class MdashRule(unittest.TestCase):
+
+    def setUp(self):
+        self.rule = rules.MdashRule()
+
+    def test_process(self):
+        text = '- Lorem ipsum dolor sit - amet'
+        expect = '— Lorem ipsum dolor sit — amet'
+
+        result = self.rule.process(text)
+        self.assertEqual(result, expect)
+
 if __name__ == '__main__':
     unittest.main()
