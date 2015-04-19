@@ -18,10 +18,7 @@ class NbspRuleTest(unittest.TestCase):
 class MnemoRuleTest(unittest.TestCase):
 
     def test_process_mtu(self):
-        rule = rules.MnemoRule({
-            'mnemo_mode': 'html_to_utf8'
-        })
-
+        rule = rules.MnemoRule({'mnemo_mode': 'html_to_utf8'})
         text = 'ab &mdash; cde &copy;'
         expect = 'ab — cde ©'
 
@@ -29,10 +26,7 @@ class MnemoRuleTest(unittest.TestCase):
         self.assertEqual(result, expect)
 
     def test_process_utm(self):
-        rule = rules.MnemoRule({
-            'mnemo_mode': 'utf8_to_html'
-        })
-
+        rule = rules.MnemoRule({'mnemo_mode': 'utf8_to_html'})
         text = 'ab — cde ©'
         expect = 'ab &mdash; cde &copy;'
 
@@ -52,6 +46,7 @@ class QuoteRuleTest(unittest.TestCase):
         result = self.rule.process(text)
         self.assertEqual(result, expect)
 
+
 class TabRuleTest(unittest.TestCase):
 
     def setUp(self):
@@ -63,6 +58,20 @@ class TabRuleTest(unittest.TestCase):
 
         result = self.rule.process(text)
         self.assertEqual(result, expect)
+
+
+class OneSpaceRuleTets(unittest.TestCase):
+
+    def setUp(self):
+        self.rule = rules.OneSpaceRule()
+
+    def test_process(self):
+        text = 'Lorem  ipsum dolor   sit amet'
+        expect = 'Lorem ipsum dolor sit amet'
+
+        result = self.rule.process(text)
+        self.assertEqual(result, expect)
+
 
 if __name__ == '__main__':
     unittest.main()

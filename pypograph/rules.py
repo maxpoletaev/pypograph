@@ -1,5 +1,6 @@
 import re
 
+
 class BaseRule(object):
     """
     Basic processor object.
@@ -9,20 +10,13 @@ class BaseRule(object):
     deps = []
 
     def __init__(self, config={}):
+        self.name = self.__class__.__name__.replace('Rule', '').lower()
         self.config.update(config)
+        self.prepare()
 
-    @property
-    def name(self):
-        return self.__class__.__name__.replace('Rule', '').lower()
-
-    def process_wrapper(self, text):
-        for dep in self.deps:
-            if dep not in text.chain:
-                raise RuleDependencyException(
-                    "The %s rule required %s before"% (self.name, dep))
-
-        text.chain.append(dep)
-        return self.process(text)
+    def prepare(self):
+        """Prepare rule."""
+        pass
 
     def process(self, text):
         """
@@ -37,8 +31,8 @@ class BaseRule(object):
 
 class MnemoRule(BaseRule):
     mnemonics_table = {
-        'mdash': {'html': '&mdash;', 'html_code': '&#8212;', 'utf8': '—'},
-        'copy': {'html': '&copy;', 'html_code': '&#169;', 'utf8': '©', 'alias': '(c) (C)'},
+        'mdash': {'html': '&mdash;', 'hex_code': '&#8212;', 'utf8': '—'},
+        'copy': {'html': '&copy;', 'hex_code': '&#169;', 'utf8': '©', 'alias': '(c) (C)'},
     }
 
     config = {
@@ -114,5 +108,6 @@ class TabRule(BaseRule):
         return re.sub('\t+', ' ', re.sub('\t+$', '', re.sub('^\t+', '', text)))
 
 
-class RuleDependencyException(Exception):
-    pass
+class OneSpaceRule(BaseRule):
+    def process(self, text):
+        return re.sub('\s+', ' ', text).strip()

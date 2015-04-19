@@ -5,6 +5,12 @@ import re
 class Text(str):
     chain = []
 
+    def split_char():
+        return enumerate(list(self))
+
+    def split_word():
+        return
+
 
 class Pypograph(object):
     rules = [
@@ -20,8 +26,11 @@ class Pypograph(object):
             self._rules_instances.append(Rule(config))
 
     def typo(self, text):
+        text = Text(text)
+
         for rule in self._rules_instances:
-            text = rule.process_wrapper(text)
+            text = rule.process(text)
+
         return text
 
 
