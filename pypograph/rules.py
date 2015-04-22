@@ -31,8 +31,9 @@ class BaseRule(object):
 
 class MnemoRule(BaseRule):
     mnemonics_table = {
-        'mdash': {'html': '&mdash;', 'hex_code': '&#8212;', 'utf8': '—'},
         'copy': {'html': '&copy;', 'hex_code': '&#169;', 'utf8': '©', 'alias': '(c) (C)'},
+        'trade': {'html': '&trade;', 'hex_code': '&#8482;', 'utf8': '™', 'alias': '(TM)'},
+        'reg': {'html': '&reg;', 'hex_code': '&#174;', 'utf8': '®', 'alias': '(R)'},
     }
 
     config = {
@@ -44,42 +45,41 @@ class MnemoRule(BaseRule):
         new_text = text.split()
 
         mode = self.config['mnemo_mode'].split('_to_')
-        table = self.table_group(mode[0], mode[1])
+        table = self.make_table(mode[0], mode[1])
 
-        for i, symb in enumerate(new_text):
-            if symb in table: new_text[i] = table[symb]
+        for f, to in table.items():
+            text = text.replace(f, to)
 
-        return ' '.join(new_text)
+        return text
 
-    def table_group(self, key, val):
+    def make_table(self, key, val):
         table = {}
-        for index in self.mnemonics_table.keys():
-            table_item = self.mnemonics_table[index]
-            table[table_item[key]] = table_item[val]
+        expand_alias = self.config['mnemo_expand_alias']
+
+        for index, item in self.mnemonics_table.items():
+            table[item[key]] = item[val]
+
+            if expand_alias and 'alias' in item:
+                for alias in item['alias'].split():
+                    table[alias] = item[val]
+
         return table
 
 
 class NbspRule(BaseRule):
     """
     Add non-breaking space after short words.
-
-    Keyword arguments:
-    text -- the text for processing
     """
 
     def process(self, text):
-        old_text = text.split(' ')
         new_text = []
-
+        old_text = text.split(' ')
         text_length = len(old_text)
 
         for i, word in enumerate(old_text):
             space = ''
             if i < text_length - 1:
-                if len(word) < 3:
-                    space = '&nbsp;'
-                else:
-                    space = ' '
+                space = '&nbsp;' if len(word) < 3 and word.strip() else ' '
 
             new_text.append(word + space)
         return ''.join(new_text)
@@ -115,6 +115,4 @@ class OneSpaceRule(BaseRule):
 
 class MdashRule(BaseRule):
     def process(self, text):
-        text = re.sub(r'^(?:\-\s)(.*)', r'— \1' , text, re.MULTILINE)
-        text = text.replace(' - ', ' — ')
-        return text
+        return text.replace('- ', '— ')

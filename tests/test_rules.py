@@ -1,9 +1,8 @@
+from unittest import TestCase
 from pypograph import rules
-import unittest
 
 
-class NbspRuleTest(unittest.TestCase):
-
+class NbspRuleTest(TestCase):
     def setUp(self):
         self.rule = rules.NbspRule()
 
@@ -15,27 +14,33 @@ class NbspRuleTest(unittest.TestCase):
         self.assertEqual(result, expect)
 
 
-class MnemoRuleTest(unittest.TestCase):
-
+class MnemoRuleTest(TestCase):
     def test_process_mtu(self):
         rule = rules.MnemoRule({'mnemo_mode': 'html_to_utf8'})
-        text = 'ab &mdash; cde &copy;'
-        expect = 'ab — cde ©'
+        text = '&copy; &reg; &trade;'
+        expect = '© ® ™'
 
         result = rule.process(text)
         self.assertEqual(result, expect)
 
     def test_process_utm(self):
         rule = rules.MnemoRule({'mnemo_mode': 'utf8_to_html'})
-        text = 'ab — cde ©'
-        expect = 'ab &mdash; cde &copy;'
+        text = '© ® ™'
+        expect = '&copy; &reg; &trade;'
+
+        result = rule.process(text)
+        self.assertEqual(result, expect)
+
+    def test_process_alias(self):
+        rule = rules.MnemoRule({'mnemo_expand_alias': True})
+        text = '(C) (R) (TM)'
+        expect = '© ® ™'
 
         result = rule.process(text)
         self.assertEqual(result, expect)
 
 
-class QuoteRuleTest(unittest.TestCase):
-
+class QuoteRuleTest(TestCase):
     def setUp(self):
         self.rule = rules.QuoteRule()
 
@@ -47,8 +52,7 @@ class QuoteRuleTest(unittest.TestCase):
         self.assertEqual(result, expect)
 
 
-class TabRuleTest(unittest.TestCase):
-
+class TabRuleTest(TestCase):
     def setUp(self):
         self.rule = rules.TabRule()
 
@@ -60,8 +64,7 @@ class TabRuleTest(unittest.TestCase):
         self.assertEqual(result, expect)
 
 
-class OneSpaceRuleTets(unittest.TestCase):
-
+class OneSpaceRuleTets(TestCase):
     def setUp(self):
         self.rule = rules.OneSpaceRule()
 
@@ -73,8 +76,7 @@ class OneSpaceRuleTets(unittest.TestCase):
         self.assertEqual(result, expect)
 
 
-class MdashRule(unittest.TestCase):
-
+class MdashRule(TestCase):
     def setUp(self):
         self.rule = rules.MdashRule()
 
@@ -85,5 +87,7 @@ class MdashRule(unittest.TestCase):
         result = self.rule.process(text)
         self.assertEqual(result, expect)
 
+
 if __name__ == '__main__':
+    import unittest
     unittest.main()

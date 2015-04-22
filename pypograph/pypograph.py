@@ -2,21 +2,12 @@ from pypograph import rules
 import re
 
 
-class Text(str):
-    chain = []
-
-    def split_char():
-        return enumerate(list(self))
-
-    def split_word():
-        return
-
-
 class Pypograph(object):
     rules = [
-        rules.TabRule,
-        rules.NbspRule,
         rules.MnemoRule,
+        rules.QuoteRule,
+        rules.MdashRule,
+        rules.NbspRule,
     ]
 
     _rules_instances = []
@@ -26,8 +17,6 @@ class Pypograph(object):
             self._rules_instances.append(Rule(config))
 
     def typo(self, text):
-        text = Text(text)
-
         for rule in self._rules_instances:
             text = rule.process(text)
 
