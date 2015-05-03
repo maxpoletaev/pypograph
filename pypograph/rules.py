@@ -9,9 +9,10 @@ class BaseRule(object):
     config = {}
     deps = []
 
-    def __init__(self, config={}):
+    def __init__(self, config=None):
         self.name = self.__class__.__name__.replace('Rule', '').lower()
-        self.config.update(config)
+        if config:
+            self.config.update(config)
         self.prepare()
 
     def prepare(self):

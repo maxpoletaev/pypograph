@@ -86,8 +86,3 @@ class MdashRule(TestCase):
 
         result = self.rule.process(text)
         self.assertEqual(result, expect)
-
-
-if __name__ == '__main__':
-    import unittest
-    unittest.main()
