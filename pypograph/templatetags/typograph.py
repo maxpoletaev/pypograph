@@ -3,8 +3,7 @@ from pypograph import Typograph
 from django import template
 
 TYPOGRAPH_RULES = getattr(settings, 'TYPOGRAPH_RULES', None)
-TYPOGRAPH_CONFIG = getattr(settings, 'TYPOGRAPH_CONFIG', None)
-typograph = Typograph(TYPOGRAPH_RULES, TYPOGRAPH_CONFIG)
+typograph = Typograph(TYPOGRAPH_RULES)
 register = template.Library()
 
 

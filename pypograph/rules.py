@@ -9,7 +9,7 @@ class BaseRule(object):
     config = {}
     deps = []
 
-    def __init__(self, config=None):
+    def __init__(self, **config):
         self.name = self.__class__.__name__.replace('Rule', '').lower()
         if config:
             self.config.update(config)
@@ -38,14 +38,14 @@ class MnemoRule(BaseRule):
     }
 
     config = {
-        'mnemo_mode': 'html_to_utf8',
-        'mnemo_expand_alias': True,
+        'mode': 'html_to_utf8',
+        'expand_alias': True,
     }
 
     def process(self, text):
         new_text = text.split()
 
-        mode = self.config['mnemo_mode'].split('_to_')
+        mode = self.config['mode'].split('_to_')
         table = self.make_table(mode[0], mode[1])
 
         for f, to in table.items():
@@ -55,7 +55,7 @@ class MnemoRule(BaseRule):
 
     def make_table(self, key, val):
         table = {}
-        expand_alias = self.config['mnemo_expand_alias']
+        expand_alias = self.config['expand_alias']
 
         for index, item in self.mnemonics_table.items():
             table[item[key]] = item[val]
@@ -88,7 +88,7 @@ class NbspRule(BaseRule):
 
 class QuoteRule(BaseRule):
     config = {
-        'quote_quotes': '«»',
+        'quotes': '«»',
     }
 
     def process(self, text):
@@ -99,7 +99,7 @@ class QuoteRule(BaseRule):
             if char == '"':
                 match += 1
                 q_index = 0 if (match % 2 == 1) else 1
-                new_text[i] = self.config['quote_quotes'][q_index]
+                new_text[i] = self.config['quotes'][q_index]
 
         return ''.join(new_text)
 
@@ -115,5 +115,7 @@ class OneSpaceRule(BaseRule):
 
 
 class MdashRule(BaseRule):
+    regex = re.compile(r'\-(\s|&nbsp;)')
+
     def process(self, text):
-        return text.replace('- ', '— ')
+        return self.regex.sub(r'—\1', text)

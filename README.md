@@ -28,17 +28,11 @@ Add `pypograph` to `INSTALLED_APPS` and try:
 </html>
 ```
 
-You can configure rules by adding `TYPOGRAPH_RULES` and `TYPOGRAPH_CONFIG` into your `setting.py`:
+You can configure rules by adding `TYPOGRAPH_RULES` into your `setting.py`:
 
 ```python
-from pypograph import rules
-
-TYPOGRAPH_RULES = [
-    rule.QuoteRule,
-]
-
-TYPOGRAPH_CONFIG = {
-  'quote_quotes': '“”'
+TYPOGRAPH_RULES = {
+    'pypograph.rules.QuoteRule': {'quotes': '“”'},
 }
 ```
 

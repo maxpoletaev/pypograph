@@ -16,7 +16,7 @@ class NbspRuleTest(TestCase):
 
 class MnemoRuleTest(TestCase):
     def test_process_mtu(self):
-        rule = rules.MnemoRule({'mnemo_mode': 'html_to_utf8'})
+        rule = rules.MnemoRule(mode='html_to_utf8')
         text = '&copy; &reg; &trade;'
         expect = '© ® ™'
 
@@ -24,7 +24,7 @@ class MnemoRuleTest(TestCase):
         self.assertEqual(result, expect)
 
     def test_process_utm(self):
-        rule = rules.MnemoRule({'mnemo_mode': 'utf8_to_html'})
+        rule = rules.MnemoRule(mode='utf8_to_html')
         text = '© ® ™'
         expect = '&copy; &reg; &trade;'
 
@@ -32,7 +32,7 @@ class MnemoRuleTest(TestCase):
         self.assertEqual(result, expect)
 
     def test_process_alias(self):
-        rule = rules.MnemoRule({'mnemo_expand_alias': True})
+        rule = rules.MnemoRule(expand_alias=True)
         text = '(C) (R) (TM)'
         expect = '© ® ™'
 
