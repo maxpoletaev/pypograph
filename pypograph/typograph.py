@@ -1,5 +1,5 @@
 from importlib import import_module
-from pypograph import rules
+from pypograph import rules, utils
 import re
 
 DEFAULT_RULES = [
@@ -37,10 +37,11 @@ class Typograph(object):
             self.rules.append(rule)
 
     def typo(self, text):
+        text = utils.pack_html(text)
         for rule in self.rules:
             text = rule.process(text)
 
-        return text
+        return utils.unpack_html(text)
 
 
 def typo(text, rules=DEFAULT_RULES):

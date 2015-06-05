@@ -5,14 +5,11 @@ class BaseRule(object):
     """
     Basic processor object.
     """
-
     config = {}
-    deps = []
 
     def __init__(self, **config):
         self.name = self.__class__.__name__.replace('Rule', '').lower()
-        if config:
-            self.config.update(config)
+        if config: self.config.update(config)
         self.prepare()
 
     def prepare(self):
