@@ -5,7 +5,7 @@ import re
 def pack_html(text):
     match_set = set()
 
-    for match in re.findall('<.*?>', text):
+    for match in re.findall(r'<.*?>', text):
         match_set.add(match)
 
     for match in match_set:
@@ -18,10 +18,12 @@ def pack_html(text):
 def unpack_html(text):
     match_set = set()
 
-    for match in re.findall('[[.*?]]', text):
+    for match in re.findall(r'\[\[.*?\]\]', text):
         match_set.add(match)
+        print(match)
 
     for match in match_set:
-        text = text.replace(match, b64decode(match))
+        decoded = b64decode(match).decode('UTF-8')
+        text = text.replace(match, decoded)
 
     return text

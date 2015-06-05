@@ -29,39 +29,19 @@ class BaseRule(object):
 
 class MnemoRule(BaseRule):
     mnemonics_table = {
-        'copy': {'html': '&copy;', 'hex_code': '&#169;', 'utf8': '©', 'alias': '(c) (C)'},
-        'trade': {'html': '&trade;', 'hex_code': '&#8482;', 'utf8': '™', 'alias': '(TM)'},
-        'reg': {'html': '&reg;', 'hex_code': '&#174;', 'utf8': '®', 'alias': '(R)'},
-    }
-
-    config = {
-        'mode': 'html_to_utf8',
-        'expand_alias': True,
+        '©': ['(c)','(C)'],
+        '™': ['(TM)'],
+        '®': ['(R)'],
     }
 
     def process(self, text):
         new_text = text.split()
 
-        mode = self.config['mode'].split('_to_')
-        table = self.make_table(mode[0], mode[1])
-
-        for f, to in table.items():
-            text = text.replace(f, to)
+        for symbol, aliases in self.mnemonics_table.items():
+            for alias in aliases:
+                text = text.replace(alias, symbol)
 
         return text
-
-    def make_table(self, key, val):
-        table = {}
-        expand_alias = self.config['expand_alias']
-
-        for index, item in self.mnemonics_table.items():
-            table[item[key]] = item[val]
-
-            if expand_alias and 'alias' in item:
-                for alias in item['alias'].split():
-                    table[alias] = item[val]
-
-        return table
 
 
 class NbspRule(BaseRule):

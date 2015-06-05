@@ -1,8 +1,9 @@
+from pypograph.typograph import DEFAULT_RULES
 from django.conf import settings
 from pypograph import Typograph
 from django import template
 
-TYPOGRAPH_RULES = getattr(settings, 'TYPOGRAPH_RULES', None)
+TYPOGRAPH_RULES = getattr(settings, 'TYPOGRAPH_RULES', DEFAULT_RULES)
 typograph = Typograph(TYPOGRAPH_RULES)
 register = template.Library()
 
