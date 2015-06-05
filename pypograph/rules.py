@@ -97,3 +97,10 @@ class MdashRule(BaseRule):
 
     def process(self, text):
         return self.regex.sub(r'—\1', text)
+
+
+class CommaRule(BaseRule):
+    regex = re.compile(r'\s+(\.|\,|\?|\!)')
+
+    def process(self, text):
+        return self.regex.sub(r'\1', text)

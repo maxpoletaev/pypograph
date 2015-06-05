@@ -6,6 +6,7 @@ DEFAULT_RULES = [
     rules.MnemoRule,
     rules.QuoteRule,
     rules.MdashRule,
+    rules.CommaRule,
     rules.NbspRule,
 ]
 

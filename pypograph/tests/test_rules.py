@@ -70,3 +70,15 @@ class MdashRule(TestCase):
 
         result = self.rule.process(text)
         self.assertEqual(result, expect)
+
+
+class CommaRuleTest(TestCase):
+    def setUp(self):
+        self.rule = rules.CommaRule()
+
+    def test_process(self):
+        text = 'Lorem ipsum , dolor sit, amet !'
+        expect = 'Lorem ipsum, dolor sit, amet!'
+
+        result = self.rule.process(text)
+        self.assertEqual(result, expect)
