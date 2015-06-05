@@ -9,7 +9,7 @@ from pypograph import Typograph
 from pypograph import rules
 
 typograph = Typograph([rules.QuoteRule, rules.MdashRule])
-typograph.typo('- Это "типограф"?')
+typograph.typo('- Это "типограф"?') # -> '— Это «типограф»?'
 ```
 
 ## Usage with Django
@@ -35,6 +35,28 @@ TYPOGRAPH_RULES = {
     'pypograph.rules.QuoteRule': {'quotes': '“”'},
 }
 ```
+
+## Сustom rules
+
+```python
+from pypograph.rules import BaseRule
+from pypograph import Typograph
+
+
+class MyOwnRule(BaseRule):
+    config = {
+      'from': 'a',
+      'to': 'b',
+    }
+
+    def process(self, text):
+        return text.replace(self.config['from'], self.config['to'])
+
+
+typograph = Typograph([MyOwnRule])
+typograph.typo('abc') # -> 'bbc'
+```
+
 
 ## Testing
 
