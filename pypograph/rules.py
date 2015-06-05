@@ -32,6 +32,7 @@ class MnemoRule(BaseRule):
         '©': ['(c)','(C)'],
         '™': ['(TM)'],
         '®': ['(R)'],
+        '…': ['...'],
     }
 
     def process(self, text):
@@ -92,7 +93,7 @@ class OneSpaceRule(BaseRule):
 
 
 class MdashRule(BaseRule):
-    regex = re.compile(r'\-(\s|&nbsp;)')
+    regex = re.compile(r'\-{1,2}(\s|&nbsp;)')
 
     def process(self, text):
         return self.regex.sub(r'—\1', text)

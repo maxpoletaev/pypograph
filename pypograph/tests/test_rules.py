@@ -65,8 +65,8 @@ class MdashRule(TestCase):
         self.rule = rules.MdashRule()
 
     def test_process(self):
-        text = '- Lorem ipsum dolor sit - amet'
-        expect = '— Lorem ipsum dolor sit — amet'
+        text = '- Lorem ipsum -- dolor sit - amet'
+        expect = '— Lorem ipsum — dolor sit — amet'
 
         result = self.rule.process(text)
         self.assertEqual(result, expect)
