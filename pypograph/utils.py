@@ -20,7 +20,6 @@ def unpack_html(text):
 
     for match in re.findall(r'\[\[.*?\]\]', text):
         match_set.add(match)
-        print(match)
 
     for match in match_set:
         decoded = b64decode(match).decode('UTF-8')

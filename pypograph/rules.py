@@ -82,11 +82,6 @@ class QuoteRule(BaseRule):
         return ''.join(new_text)
 
 
-class TabRule(BaseRule):
-    def process(self, text):
-        return re.sub('\t+', ' ', re.sub('\t+$', '', re.sub('^\t+', '', text)))
-
-
 class OneSpaceRule(BaseRule):
     def process(self, text):
         return re.sub('\s+', ' ', text).strip()
@@ -99,8 +94,19 @@ class MdashRule(BaseRule):
         return self.regex.sub(r'—\1', text)
 
 
-class CommaRule(BaseRule):
-    regex = re.compile(r'\s+(\.|\,|\?|\!)')
+class PunctuationRule(BaseRule):
+    config = {
+        'symbols': '.,!?:',
+    }
+
+    _regexps = {}
+
+    def prepare(self):
+        for symbol in self.config['symbols']:
+            self._regexps[symbol] = re.compile(r'(\s*)(%s)(\s*)' % ('\\' + symbol))
 
     def process(self, text):
-        return self.regex.sub(r'\1', text)
+        for symbol, regex in self._regexps.items():
+            text = regex.sub(r'\2 ', text)
+
+        return text.strip()
