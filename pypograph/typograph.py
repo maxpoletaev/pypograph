@@ -5,7 +5,7 @@ import re
 DEFAULT_RULES = [
     rules.MnemoRule,
     rules.QuoteRule,
-    rules.MdashRule,
+    rules.DashRule,
     rules.PunctuationRule,
     rules.NbspRule,
 ]

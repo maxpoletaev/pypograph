@@ -48,13 +48,20 @@ class OneSpaceRuleTets(TestCase):
         self.assertEqual(result, expect)
 
 
-class MdashRule(TestCase):
+class DashRule(TestCase):
     def setUp(self):
-        self.rule = rules.MdashRule()
+        self.rule = rules.DashRule()
 
-    def test_process(self):
+    def test_process_text(self):
         text = '- Lorem ipsum -- dolor sit - amet'
         expect = '— Lorem ipsum — dolor sit — amet'
+
+        result = self.rule.process(text)
+        self.assertEqual(result, expect)
+
+    def test_process_digts(self):
+        text = 'Lorem ipsum 1994-2015'
+        expect = 'Lorem ipsum 1994–2015'
 
         result = self.rule.process(text)
         self.assertEqual(result, expect)

@@ -8,7 +8,7 @@
 from pypograph import Typograph
 from pypograph import rules
 
-typograph = Typograph([rules.QuoteRule, rules.MdashRule])
+typograph = Typograph([rules.QuoteRule, rules.DashRule])
 typograph.typo('- Это "типограф"?') # -> '— Это «типограф»?'
 ```
 

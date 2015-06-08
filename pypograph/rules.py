@@ -87,11 +87,14 @@ class OneSpaceRule(BaseRule):
         return re.sub('\s+', ' ', text).strip()
 
 
-class MdashRule(BaseRule):
-    regex = re.compile(r'\-{1,2}(\s|&nbsp;)')
+class DashRule(BaseRule):
+    mdash = re.compile(r'\-{1,2}(\s|&nbsp;)')
+    ndash = re.compile(r'(\d+)-(\d+)')
 
     def process(self, text):
-        return self.regex.sub(r'—\1', text)
+        text = self.mdash.sub(r'—\1', text)
+        text = self.ndash.sub(r'\1–\2', text)
+        return text
 
 
 class PunctuationRule(BaseRule):
