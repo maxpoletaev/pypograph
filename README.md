@@ -19,13 +19,11 @@ Add `pypograph` to `INSTALLED_APPS` and try:
 ```html
 {% load typograph %}
 
-<html>
-  <body>
-    {% typo %}
-      <p>- Это "типограф"?</p>
-    {% endtypo %}
-  </body>
-</html>
+{% typo %}
+  <p>- Это "типограф"?</p>
+{% endtypo %}
+
+{% content|typo %}
 ```
 
 You can configure rules by adding `TYPOGRAPH_RULES` into your `setting.py`:
