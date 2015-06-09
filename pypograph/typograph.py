@@ -15,26 +15,22 @@ class Typograph(object):
     rules = []
 
     def __init__(self, rules=DEFAULT_RULES):
-        if type(rules) == list:
+        if type(rules) in [list, tuple]:
             self._load_rules_list(rules)
-        elif type(rules) == dict:
-            self._load_rules_dict(rules)
-
-    def _load_rules_dict(self, rules):
-        for rule_class, config in rules.items():
-            if isinstance(rule_class, str):
-                rule_class = importlib.import_module(rule_class)
-
-            rule = rule_class(**config)
-            self.rules.append(rule)
 
     def _load_rules_list(self, rules):
         config = dict()
         for rule in rules:
+            if type(rule) in (list, tuple):
+                rule, config = rule
+
             if isinstance(rule, str):
-                rule = importlib.import_module(rule)
-            if isinstance(rule, type):
+                package_name, class_name = rule.rsplit('.', 1)
+                rule_cls = getattr(import_module(package_name), class_name)
+                rule = rule_cls(**config)
+            elif isinstance(rule, type):
                 rule = rule(**config)
+
             self.rules.append(rule)
 
     def typo(self, text):

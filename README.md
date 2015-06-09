@@ -29,9 +29,10 @@ Add `pypograph` to `INSTALLED_APPS` and try:
 You can configure rules by adding `TYPOGRAPH_RULES` into your `setting.py`:
 
 ```python
-TYPOGRAPH_RULES = {
-    'pypograph.rules.QuoteRule': {'quotes': '“”'},
-}
+TYPOGRAPH_RULES = [
+    'pypograph.rules.DashRule',
+    ('pypograph.rules.QuoteRule', {'quotes': '“”'}),
+]
 ```
 
 ## Сustom rules
@@ -58,6 +59,6 @@ typograph.typo('abc') # -> 'bbc'
 
 ## Testing
 
-```
-python -m unittest pypograph.tests
+```sh
+$ python -m unittest pypograph.tests
 ```

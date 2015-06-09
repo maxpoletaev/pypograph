@@ -11,11 +11,15 @@ class TestTypograph(unittest.TestCase):
         self.assertEqual(result, expect)
 
     def test_rules_list(self):
-        rules_list = [rules.NbspRule, rules.MdashRule]
+        rules_list = [
+            rules.NbspRule,
+            rules.DashRule(),
+            ('pypograph.rules.QuoteRule', {'quotes': '**'}),
+        ]
         typograph = Typograph(rules_list)
 
-        text = 'ab abc - abc'
-        expect = 'ab&nbsp;abc —&nbsp;abc'
+        text = 'ab abc - abcdef "abc"'
+        expect = 'ab&nbsp;abc —&nbsp;abcdef *abc*'
         result = typograph.typo(text)
 
         self.assertEqual(result, expect)
