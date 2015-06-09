@@ -17,7 +17,7 @@ typograph.typo('- Это "типограф"?') # -> '— Это «типогра
 Add `pypograph` to `INSTALLED_APPS` and try:
 
 ```html
-{% load typograph %}
+{% load pypograph %}
 
 {% typo %}
   <p>- Это "типограф"?</p>
